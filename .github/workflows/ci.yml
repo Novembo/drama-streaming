@@ -54,7 +54,7 @@ jobs:
       - run: pip-audit -r backend/requirements.txt
       - uses: gitleaks/gitleaks-action@v2
         env: {GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"}
-      - uses: aquasecurity/trivy-action@0.28.0
+      - uses: aquasecurity/trivy-action@v0.36.0
         with: {scan-type: fs, scan-ref: ., severity: "CRITICAL,HIGH", exit-code: "1", ignore-unfixed: true}
 
   image:
@@ -63,7 +63,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: docker build -t drama-api:ci backend
-      - uses: aquasecurity/trivy-action@0.28.0
+      - uses: aquasecurity/trivy-action@v0.36.0
         with: {image-ref: "drama-api:ci", severity: "CRITICAL,HIGH", exit-code: "1", ignore-unfixed: true}
 
   mobile:
