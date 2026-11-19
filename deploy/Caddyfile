@@ -1,0 +1,23 @@
+{$API_DOMAIN} {
+	encode zstd gzip
+	request_body {
+		max_size 1MB
+	}
+	header {
+		-Server
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options nosniff
+	}
+	# Interactive docs are disabled in production by the app; block them at the edge too.
+	respond /docs* 404
+	respond /openapi.json 404
+	reverse_proxy api:8000 {
+		health_uri /health/live
+		health_interval 10s
+		# Caddy overwrites X-Forwarded-For with the real client IP (used by the rate limiter).
+	}
+	log {
+		output stdout
+		format json
+	}
+}

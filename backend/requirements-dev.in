@@ -1,0 +1,6 @@
+-c requirements.txt
+pytest==8.4.2
+fakeredis>=2.23
+ruff>=0.5
+bandit>=1.7
+pip-audit>=2.7

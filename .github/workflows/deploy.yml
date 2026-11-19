@@ -1,0 +1,25 @@
+name: Deploy (manual)
+on:
+  workflow_dispatch:
+    inputs:
+      tag: {description: "Image tag to deploy (e.g. v1.0.0)", required: true}
+permissions:
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production        # configure required reviewers on this environment
+    steps:
+      - name: Deploy over SSH (pinned host key, dedicated deploy user)
+        env:
+          SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          KNOWN_HOSTS: ${{ secrets.DEPLOY_KNOWN_HOSTS }}
+          HOST: ${{ secrets.DEPLOY_HOST }}
+          USER: ${{ secrets.DEPLOY_USER }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/id && chmod 600 ~/.ssh/id
+          printf '%s\n' "$KNOWN_HOSTS" > ~/.ssh/known_hosts
+          [[ "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]] || { echo "invalid tag"; exit 1; }
+          ssh -i ~/.ssh/id -o StrictHostKeyChecking=yes "$USER@$HOST" "cd /opt/drama-benin && ./deploy/deploy.sh $TAG"

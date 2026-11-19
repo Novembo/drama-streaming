@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0b0a10"><meta name="description" content="Drama — vos histoires préférées, sans interruption.">
+  <title>Drama — Histoires sans interruption</title><link rel="preconnect" href="https://images.unsplash.com"><link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <a class="brand" href="#home"><span class="brand-mark">D</span><span>drama<span class="brand-dot">.</span></span></a>
+    <div class="side-label">MENU</div>
+    <nav class="side-nav" aria-label="Navigation principale">
+      <button class="nav-item active" data-page="home"><i>⌂</i>Accueil</button>
+      <button class="nav-item" data-page="explore"><i>◫</i>Explorer</button>
+      <button class="nav-item" data-page="favorites"><i>♡</i>Ma liste</button>
+      <button class="nav-item" data-page="history"><i>◷</i>Historique</button>
+    </nav>
+    <div class="side-label side-label-spaced">VOTRE ESPACE</div>
+    <button class="vip-card" data-action="plans"><span class="vip-crown">✦</span><b>Pass VIP</b><small>Plus d'histoires, sans limites.</small><span class="vip-link">Découvrir <b>↗</b></span></button>
+    <div class="sidebar-bottom"><span class="avatar">OV</span><span class="profile-meta"><b id="profile-name">Invité</b><small id="profile-status">Compte découverte</small></span><button class="more-btn" aria-label="Options">···</button></div>
+  </aside>
+  <main class="main-content">
+    <header class="topbar"><button class="mobile-brand brand" data-page="home"><span class="brand-mark">D</span><span>drama<span class="brand-dot">.</span></span></button><div class="top-location"><span class="live-dot"></span> Vos dramas, partout au Bénin</div><div class="top-actions"><label class="search-box"><span>⌕</span><input id="global-search" placeholder="Rechercher un drama..." autocomplete="off"><kbd>⌘ K</kbd></label><button class="icon-btn" data-action="notifications" aria-label="Notifications">♧</button><button class="top-avatar" data-action="account">OV</button></div></header>
+    <section id="page-home" class="page active">
+      <section class="hero" id="hero">
+        <div class="hero-backdrop"></div><div class="hero-content"><div class="eyebrow"><span class="eyebrow-line"></span> À LA UNE <span class="new-pill">NOUVEAU</span></div><div class="hero-kicker">UNE HISTOIRE PEUT TOUT CHANGER</div><h1>Les chemins<br><em>du destin.</em></h1><p>Quand deux mondes se rencontrent, les secrets n'ont plus de refuge. Une histoire inoubliable vous attend.</p><div class="hero-meta"><span>2025</span><span class="meta-dot">•</span><span>Romance · Drame</span><span class="rating">★ 9.2</span></div><div class="hero-buttons"><button class="btn-primary" data-action="play-featured"><span>▶</span> Regarder maintenant</button><button class="btn-glass" data-action="featured-detail">Plus d'infos <span>＋</span></button></div></div><div class="hero-pagination"><span class="page-current">01</span><span class="page-track"><i></i></span><span>03</span></div><div class="hero-art-label">DRAMA ORIGINALS <span>NO. 001</span></div></section>
+      <section class="content-section continue-section"><div class="section-heading"><div><div class="section-kicker">REPRENEZ LÀ OÙ VOUS EN ÉTIEZ</div><h2>Continuer à regarder</h2></div><button class="text-link" data-page="history">Tout voir <span>→</span></button></div><div class="continue-card"><div class="continue-thumb thumb-continue"><button class="play-float" data-action="play-featured">▶</button><span class="episode-tag">ÉPISODE 04</span></div><div class="continue-info"><div class="continue-title-row"><div><b>Les chemins du destin</b><small>Saison 1 · Épisode 4 — La promesse</small></div><span class="progress-time">18 min restantes</span></div><div class="progress-bar"><i style="width:62%"></i></div><div class="continue-bottom"><span>62 % terminé</span><button data-action="play-featured">Reprendre <span>→</span></button></div></div></div></section>
+      <section class="content-section"><div class="section-heading"><div><div class="section-kicker">SÉLECTIONNÉS POUR VOUS</div><h2>Les incontournables <span class="heading-spark">✦</span></h2></div><button class="text-link" data-page="explore">Voir le catalogue <span>→</span></button></div><div class="poster-grid" id="trending-grid"></div></section>
+      <section class="content-section"><div class="section-heading"><div><div class="section-kicker">SELON VOTRE HUMEUR</div><h2>Explorez par univers</h2></div></div><div class="category-chips" id="home-categories"></div></section>
+      <section class="content-section"><div class="section-heading"><div><div class="section-kicker">À NE PAS MANQUER</div><h2>Nouveautés de la semaine</h2></div><button class="text-link" data-page="explore">Tout découvrir <span>→</span></button></div><div class="wide-grid" id="new-grid"></div></section>
+    </section>
+    <section id="page-explore" class="page"><div class="page-title-block"><div class="section-kicker">VOTRE PROCHAINE HISTOIRE</div><h1>Explorer <em>les dramas.</em></h1><p>Des histoires qui font battre le cœur, rire et vibrer.</p></div><div class="explore-tools"><div class="search-box explore-search"><span>⌕</span><input id="explore-search" placeholder="Un titre, un acteur, une émotion..."></div><select id="sort-select" aria-label="Trier"><option value="popular">Les plus populaires</option><option value="rating">Mieux notés</option><option value="newest">Plus récents</option></select></div><div class="category-chips" id="explore-categories"></div><div class="catalog-grid" id="catalog-grid"></div></section>
+    <section id="page-favorites" class="page"><div class="page-title-block"><div class="section-kicker">VOTRE COLLECTION PERSONNELLE</div><h1>Ma <em>liste.</em></h1><p>Gardez vos histoires préférées à portée de main.</p></div><div class="catalog-grid" id="favorites-grid"></div><div class="empty-state hidden" id="favorites-empty"><span>♡</span><h3>Votre liste est encore vide</h3><p>Ajoutez les dramas qui vous plaisent pour les retrouver ici.</p><button class="btn-primary" data-page="explore">Explorer le catalogue</button></div></section>
+    <section id="page-history" class="page"><div class="page-title-block"><div class="section-kicker">VOTRE PARCOURS</div><h1>Reprendre <em>l'histoire.</em></h1><p>Retrouvez les épisodes que vous avez commencés.</p></div><div id="history-list" class="history-list"></div></section>
+    <footer class="footer"><span>© 2026 DRAMA. FAIT POUR VOS HISTOIRES.</span><span><i class="live-dot"></i> Une expérience sans publicité intrusive</span><button data-action="plans">Pass VIP <span>↗</span></button></footer>
+  </main>
+</div>
+<div class="modal-backdrop hidden" id="modal-backdrop"><div class="modal" id="modal" role="dialog" aria-modal="true" aria-label="Détails"><button class="modal-close" data-action="close-modal">×</button><div id="modal-content"></div></div></div>
+<div class="toast" id="toast" role="status"></div>
+<script src="/app.js" defer></script>
+</body></html>

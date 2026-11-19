@@ -1,0 +1,65 @@
+# Production single-VPS stack:  docker compose -f docker-compose.prod.yml --env-file .env up -d
+# Only Caddy is exposed (80/443, automatic HTTPS). DB, Redis and the API stay on the private network.
+services:
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports: ["80:80", "443:443"]
+    environment:
+      API_DOMAIN: ${API_DOMAIN:?set API_DOMAIN}
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+    depends_on: [api]
+    networks: [edge, internal]
+  api:
+    image: ${API_IMAGE:?set API_IMAGE (e.g. ghcr.io/you/drama-benin-api:1.0.0)}
+    restart: unless-stopped
+    env_file: .env
+    environment: {ENVIRONMENT: production}
+    read_only: true
+    tmpfs: [/tmp]
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 512m
+    depends_on:
+      migrate: {condition: service_completed_successfully}
+      redis: {condition: service_healthy}
+    networks: [internal]
+  migrate:
+    image: ${API_IMAGE}
+    command: ["alembic", "upgrade", "head"]
+    env_file: .env
+    environment: {ENVIRONMENT: production}
+    depends_on:
+      db: {condition: service_healthy}
+    networks: [internal]
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?}
+      POSTGRES_DB: ${POSTGRES_DB:?}
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      retries: 10
+    networks: [internal]
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--save", "", "--appendonly", "no", "--maxmemory", "128mb", "--maxmemory-policy", "allkeys-lru"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      retries: 10
+    networks: [internal]
+volumes:
+  pgdata:
+  caddy_data:
+networks:
+  edge:
+  internal:
+    internal: true   # no outbound internet for db/redis
